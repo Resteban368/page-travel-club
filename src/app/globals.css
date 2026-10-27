@@ -1,26 +1,84 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-navy: #0a2a5c;
+  --color-navy-d: #061633;
+  --color-blue: #0b5cab;
+  --color-sky: #1ba6e3;
+  --color-green: #62b946;
+  --color-yellow: #f6bb26;
+  --color-wa: #22c35e;
+  --color-bg: #f4f7fc;
+  --color-ink: #0f2148;
+  --color-muted: #5e6e8c;
+  --color-line: #e2e8f2;
+  --color-mist: #c9d8f2;
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+  --shadow-card: 0 18px 36px -30px rgb(10 42 92 / 0.6);
+  --shadow-lift: 0 26px 50px -34px rgb(10 42 92 / 0.7);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px;
+  }
+  body {
+    @apply bg-bg text-ink font-sans text-base leading-[1.55] antialiased;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-yellow);
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition: none !important;
+      animation: none !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-[1140px] px-4;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-[13px] text-[15px] font-bold no-underline transition hover:-translate-y-0.5 hover:brightness-105 disabled:opacity-60;
+  }
+  .btn-sm {
+    @apply px-4 py-2.5 text-sm;
+  }
+  .btn-wa {
+    @apply bg-wa text-white;
+  }
+  .btn-yellow {
+    @apply bg-yellow text-navy;
+  }
+  .btn-navy {
+    @apply bg-navy text-white;
+  }
+  .btn-ghost {
+    @apply bg-white/15 text-white shadow-[inset_0_0_0_1.5px_rgb(255_255_255/0.6)] backdrop-blur-md;
+  }
+  .stripe {
+    background: linear-gradient(90deg, var(--color-yellow) 0 34%, var(--color-sky) 34% 67%, var(--color-green) 67%);
+  }
+  .bg-navy-grad {
+    background: linear-gradient(160deg, var(--color-navy), var(--color-navy-d));
+  }
 }
