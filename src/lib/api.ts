@@ -18,7 +18,7 @@ import type { Category, CategorySlug, Company, Faq, NewReview, Plan, PriceOption
 
 export const TAGS = { plans: "planes", company: "empresa", faqs: "faqs", reviews: "opiniones" } as const;
 
-const API_URL = (process.env.API_URL ?? "https://cotizaciones.travelclubagencia.com").replace(/\/$/, "");
+const API_URL = (process.env.API_URL ?? "https://api.travelclubagencia.com").replace(/\/$/, "");
 
 async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_URL}${path}`, {
