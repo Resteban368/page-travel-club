@@ -8,8 +8,9 @@ import { PlanCard } from "@/components/plan-card";
 import { ReviewForm } from "@/components/review-form";
 import { ReviewList } from "@/components/reviews";
 import { SectionHead } from "@/components/section-head";
+import { TravelerGallery } from "@/components/traveler-gallery";
 import { TripTypes } from "@/components/trip-types";
-import { getCategories, getCompany, getFaqs, getPlans } from "@/lib/api";
+import { getCategories, getCompany, getFaqs, getPlans, getTravelerPhotos } from "@/lib/api";
 import { faqJsonLd } from "@/lib/jsonld";
 import { policies, site, waLink } from "@/lib/site";
 
@@ -20,7 +21,7 @@ const steps = [
 ];
 
 export default async function Home() {
-  const [plans, company, faqs] = await Promise.all([getPlans(), getCompany(), getFaqs()]);
+  const [plans, company, faqs, travelers] = await Promise.all([getPlans(), getCompany(), getFaqs(), getTravelerPhotos()]);
   const [aboutLead, ...aboutRest] = company.about.split(/(?<=\d{4}\.)\s+/);
 
   return (
@@ -123,6 +124,18 @@ export default async function Home() {
             ))}
           </ol>
         </section>
+
+        {travelers.length > 0 && (
+          <section className="wrap pt-16 pb-2" id="viajeros">
+            <SectionHead eyebrow="NUESTROS VIAJEROS" title="Ellos ya viajaron" accent="con nosotros" intro="Grupos que salieron desde el Caquetá a vivir una nueva aventura." />
+            <TravelerGallery photos={travelers.slice(0, 8)} sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 270px" />
+            {travelers.length > 8 && (
+              <div className="mt-6 text-center">
+                <Link href="/viajeros" className="btn btn-navy">Ver las {travelers.length} fotos</Link>
+              </div>
+            )}
+          </section>
+        )}
 
         <section className="wrap pt-16 pb-2" id="opiniones">
           <SectionHead eyebrow="OPINIONES" title="Lo que dicen" accent="nuestros viajeros" intro="¿Ya viajaste con nosotros? Cuéntanos cómo te fue." />

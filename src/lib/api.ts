@@ -2,7 +2,7 @@ import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 import { categories, company as seedCompany, plans as seedPlans } from "./seed";
 import { faqs as seedFaqs } from "./site";
-import type { Category, CategorySlug, Company, Faq, NewReview, Plan, PriceOption, Review } from "./types";
+import type { Category, CategorySlug, Company, Faq, NewReview, Plan, PriceOption, Review, TravelerPhoto } from "./types";
 
 // Cliente de la API de NestJS (proyecto api-travel-tours). Todo corre en el servidor:
 // el HTML llega completo a Google y a los bots de IA.
@@ -12,11 +12,12 @@ import type { Category, CategorySlug, Company, Faq, NewReview, Plan, PriceOption
 //   GET  /v1/integracion/faqs         -> ApiFaq[]
 //   GET  /v1/integracion/servicios    -> (aún vacío, sin usar)
 //   GET  /v1/info-empresa/publica     -> ApiCompany[]
-//   GET/POST /v1/integracion/opiniones (pendiente de crear en la API)
+//   GET/POST /v1/integracion/opiniones
+//   GET  /v1/storage/nc-folder-images?path=Photos/viajeros&recursive=true -> ApiFolderImage[]
 //
 // Si la API falla se usa el contenido de respaldo de seed.ts para que la web nunca quede vacía.
 
-export const TAGS = { plans: "planes", company: "empresa", faqs: "faqs", reviews: "opiniones" } as const;
+export const TAGS = { plans: "planes", company: "empresa", faqs: "faqs", reviews: "opiniones", travelers: "viajeros" } as const;
 
 const API_URL = (process.env.API_URL ?? "https://api.travelclubagencia.com").replace(/\/$/, "");
 
@@ -323,4 +324,40 @@ export async function createReview(review: NewReview) {
     calificacion: review.stars,
   };
   await api<unknown>(REVIEWS_PATH, { method: "POST", body: JSON.stringify(body) });
+}
+
+// ---------- Galería de viajeros ----------
+//
+// Fotos de la carpeta Photos/viajeros del almacenamiento. Las subcarpetas (una por viaje,
+// ej. "Photos/viajeros/Santa Marta noviembre 2026") se usan como pie de foto.
+
+const TRAVELERS_FOLDER = process.env.TRAVELERS_FOLDER ?? "Photos/viajeros";
+
+type ApiFolderImage = { filename: string; ncPath: string; url: string };
+
+function toTravelerPhoto(img: ApiFolderImage): TravelerPhoto | null {
+  if (!img.url) return null;
+  const rel = img.ncPath.slice(TRAVELERS_FOLDER.length + 1).split("/");
+  const trip = rel.length > 1 ? rel.slice(0, -1).join(" · ").replace(/[_-]+/g, " ").trim() : undefined;
+  return {
+    id: img.ncPath,
+    url: img.url.replace(/^http:\/\//, "https://"),
+    trip: trip || undefined,
+  };
+}
+
+export async function getTravelerPhotos(): Promise<TravelerPhoto[]> {
+  "use cache";
+  cacheTag(TAGS.travelers);
+  try {
+    const images = await api<ApiFolderImage[]>(
+      `/v1/storage/nc-folder-images?path=${encodeURIComponent(TRAVELERS_FOLDER)}&recursive=true`,
+    );
+    cacheLife("hours");
+    return images.map(toTravelerPhoto).filter((p): p is TravelerPhoto => p !== null);
+  } catch (err) {
+    console.error("[api] getTravelerPhotos falló:", err);
+    cacheLife("minutes");
+    return [];
+  }
 }

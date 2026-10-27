@@ -7,6 +7,7 @@ const links = [
   { href: "/#tipos-de-viaje", label: "Tipos de viaje" },
   { href: "/#promociones", label: "Promociones" },
   { href: "/#nosotros", label: "Nosotros" },
+  { href: "/viajeros", label: "Viajeros" },
   { href: "/#opiniones", label: "Opiniones" },
   { href: "/#contacto", label: "Contacto" },
 ];

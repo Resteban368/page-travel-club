@@ -5,7 +5,7 @@ import { TAGS } from "@/lib/api";
 // Webhook para NestJS: llámalo después de crear/editar/borrar planes o aprobar opiniones.
 //   POST /api/revalidate
 //   Authorization: Bearer <REVALIDATE_SECRET>
-//   { "tags": ["planes"] }   // valores: planes, empresa, faqs, opiniones (sin body = todos)
+//   { "tags": ["planes"] }   // valores: planes, empresa, faqs, opiniones, viajeros (sin body = todos)
 export async function POST(req: Request) {
   const secret = process.env.REVALIDATE_SECRET;
   const token = req.headers.get("authorization")?.replace(/^Bearer /, "") ?? "";

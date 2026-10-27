@@ -69,6 +69,13 @@ export type Faq = { q: string; a: string };
 
 export type Policy = { title: string; content: string };
 
+export type TravelerPhoto = {
+  id: string;
+  url: string;
+  /** Nombre del viaje, tomado de la subcarpeta dentro de Photos/viajeros. */
+  trip?: string;
+};
+
 export type Company = {
   name: string;
   legalName: string;

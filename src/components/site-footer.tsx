@@ -21,6 +21,7 @@ export function SiteFooter({ company: c }: { company: Company }) {
             <h2 className="mb-2.5 text-[13px] font-semibold tracking-[0.14em] text-white">EXPLORA</h2>
             <ul className="grid gap-1.5">
               <li><Link href="/#promociones" className="hover:text-white">Promociones</Link></li>
+              <li><Link href="/viajeros" className="hover:text-white">Nuestros viajeros</Link></li>
               <li><Link href="/#opiniones" className="hover:text-white">Opiniones</Link></li>
               <li><Link href="/#preguntas" className="hover:text-white">Preguntas frecuentes</Link></li>
               <li><Link href="/politicas" className="hover:text-white">Políticas y condiciones</Link></li>
