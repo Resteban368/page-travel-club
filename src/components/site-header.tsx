@@ -4,6 +4,7 @@ import { site } from "@/lib/site";
 import { ShieldIcon } from "./icons";
 
 const links = [
+  { href: "/#vuelos", label: "Vuelos" },
   { href: "/#tipos-de-viaje", label: "Tipos de viaje" },
   { href: "/#promociones", label: "Promociones" },
   { href: "/#nosotros", label: "Nosotros" },
