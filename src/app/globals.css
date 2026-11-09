@@ -78,6 +78,18 @@
   .stripe {
     background: linear-gradient(90deg, var(--color-yellow) 0 34%, var(--color-sky) 34% 67%, var(--color-green) 67%);
   }
+  .fs-label {
+    @apply mb-1.5 block text-[12px] font-bold tracking-[0.08em] text-muted uppercase;
+  }
+  .fs-box {
+    @apply flex h-[54px] items-center gap-2.5 rounded-2xl bg-bg px-3.5 ring-1 ring-line transition focus-within:bg-white focus-within:ring-2 focus-within:ring-sky;
+  }
+  .fs-input {
+    @apply h-full w-full min-w-0 bg-transparent text-[15px] font-semibold text-navy outline-none placeholder:font-medium placeholder:text-muted;
+  }
+  .fs-step {
+    @apply grid size-9 place-items-center rounded-full text-lg font-bold text-navy ring-1 ring-line transition hover:bg-bg disabled:cursor-not-allowed disabled:opacity-35;
+  }
   .bg-navy-grad {
     background: linear-gradient(160deg, var(--color-navy), var(--color-navy-d));
   }

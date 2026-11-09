@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HeroCarousel } from "@/components/hero-carousel";
+import { FlightSearch } from "@/components/flight-search";
 import { GiftIcon, PinIcon, PlaneIcon, WhatsAppIcon } from "@/components/icons";
 import { JsonLd } from "@/components/json-ld";
 import { PlanCard } from "@/components/plan-card";
@@ -55,6 +56,10 @@ export default async function Home() {
       </section>
 
       <main>
+        <section className="wrap relative z-10 -mt-[86px] md:-mt-[70px]" id="vuelos" aria-label="Cotizador de vuelos">
+          <FlightSearch />
+        </section>
+
         <section className="wrap pt-16 pb-2" id="tipos-de-viaje">
           <SectionHead eyebrow="TIPOS DE VIAJE" title="¿Qué tipo de viaje" accent="buscas?" intro="Elige tu estilo y te mostramos los planes disponibles." />
           <TripTypes categories={getCategories()} plans={plans} />
